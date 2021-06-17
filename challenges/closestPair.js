@@ -1,5 +1,5 @@
 // Brute Force:
-
+// Time Complexity: O(n^2)
 function closestPair(target, leftNums, rightNums) {
     let closest = null
 
@@ -12,4 +12,19 @@ function closestPair(target, leftNums, rightNums) {
         }
     }
     return closest
+}
+
+// Slight Improvement
+// Time Complexity: O(n * x)
+
+function closestPair(target, leftNums, rightNums) {
+    let x = new Set(leftNums)
+    let j = 1
+    while (true) {
+        for (let i = 0; i < rightNums.length; i++) {
+            let best = target - rightNums[i]
+            if (x.has(best)) return [best, rightNums[i]]
+        }
+        j % 2 ? target += j : target -= j
+    }
 }
