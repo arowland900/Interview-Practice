@@ -31,7 +31,7 @@ function closestPair(target, leftNums, rightNums) {
 
 
 // Best Solution
-// Time Complexity: O(n + m)
+// Time Complexity: O(n log(n)) assuming good sort
 function closestPair(target, leftNums, rightNums) {
     leftNums = Array.from(new Set(leftNums)).sort((a, b) => b - a)
     rightNums = Array.from(new Set(rightNums)).sort((a, b) => a - b)
@@ -52,7 +52,43 @@ function closestPair(target, leftNums, rightNums) {
             bestPair = newPair
             bestPairValue = value
         }
-        console.log(newPair, bestPair)
+    }
+    return bestPair
+}
+
+
+// Further improvement with better sort:
+function quickSort(arr) {
+    if (arr.length < 2) return arr
+
+    let pivot = arr.pop()
+    let [left, right] = [[], []]
+
+    arr.forEach(e => e >= pivot ? right.push(e) : left.push(e))
+
+    return [...quickSort(left), pivot, ...quickSort(right)]
+}
+
+function closestPair(target, leftNums, rightNums) {
+    leftNums = quickSort(Array.from(new Set(leftNums)))
+    rightNums = quickSort(Array.from(new Set(rightNums)))
+
+    let bestPair = [leftNums[0], rightNums[0]];
+    let bestPairValue = bestPair[0] + bestPair[1];
+    let i = leftNums.length - 1, j = 0
+
+    while (i > 0 && j < rightNums.length) {
+        let newPair = [leftNums[i], rightNums[j]]
+        let value = newPair[0] + newPair[1]
+
+        if (value == target) return newPair
+        else if (value < target) j++
+        else i--
+
+        if (Math.abs(value - target) < Math.abs(bestPairValue - target)) {
+            bestPair = newPair
+            bestPairValue = value
+        }
     }
     return bestPair
 }
