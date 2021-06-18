@@ -12,3 +12,16 @@ function arrToBST(arr) {
 
     return node
 }
+
+// Cleaner Solution:
+
+function arrToBST(arr) {
+    if (!arr.length) return null
+
+    let midPoint = Math.floor((arr.length - 1) / 2)
+    let node = new Node(arr[midPoint])
+    node.left = arrToBST(arr.slice(0, midPoint))
+    node.right = arrToBST(arr.slice(midPoint + 1, arr.length))
+
+    return node
+}
