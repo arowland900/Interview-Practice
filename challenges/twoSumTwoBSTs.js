@@ -30,10 +30,7 @@ var twoSumBSTs = function (root1, root2, target) {
     }
     function traverseCheck(node) {
         if (node) {
-            if (map1.has(node.val)) {
-                answer = true
-                return true
-            }
+            if (map1.has(node.val)) return answer = true
             if (node.left) traverseCheck(node.left)
             if (node.right) traverseCheck(node.right)
         }
