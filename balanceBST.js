@@ -1,3 +1,4 @@
+// Solution #1
 var balanceBST = function (root) {
     let arr = []
     bstToArr(root)
@@ -21,4 +22,40 @@ var balanceBST = function (root) {
         return node;
     }
 
+};
+
+// Solution #2
+var balanceBST = function (root) {
+    let first = null;
+    let last = null;
+    let count = 0;
+    function dfs(cur) {
+        if (cur.left) dfs(cur.left);
+        if (!last) {
+            last = cur;
+            first = cur;
+        } else {
+            last.right = cur;
+            last = cur;
+        }
+        count++;
+        if (cur.right) dfs(cur.right);
+    }
+
+    dfs(root);
+
+    function treeBuilder(l, r) {
+        if (l > r) return null;
+
+        let mid = ~~((l + r) / 2);
+        let lft = treeBuilder(l, mid - 1);
+        let cur = first;
+        cur.left = lft;
+        first = first.right;
+
+        let rit = treeBuilder(mid + 1, r);
+        cur.right = rit;
+        return cur;
+    }
+    return treeBuilder(0, count - 1)
 };
